@@ -7,7 +7,7 @@
           class="search-bar" 
           placeholder='Search...' 
           v-model='query'
-          @keypress='fetchWeather'
+          @keyup.enter='fetchWeather'
         />
       </div>
       <div class="weather-wrap">
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   name: 'app',
@@ -40,11 +41,15 @@ export default {
     }
   },
   methods: {
-    fetchWeather (e){
-      if(e.key == 'Enter'){
-        fetch(`${this.url_base}weather?q=${this.query}&units=metric&appid=${this.api_key}`)
+    fetchWeather (){
+        axios.get(`${this.url_base}weather?q=${this.query}&units=metric&appid=${this.api_key}`)
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        })
       }
-    }
   }
 }
 </script>
